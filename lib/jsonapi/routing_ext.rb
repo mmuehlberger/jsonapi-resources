@@ -33,7 +33,11 @@ module ActionDispatch
           end
 
           resource @resource_type, options do
-            @scope[:jsonapi_resource] = @resource_type
+            if Rails::VERSION::MAJOR >= 5
+              @scope = @scope.new jsonapi_resource: @resource_type
+            else
+              @scope[:jsonapi_resource] = @resource_type
+            end
 
             if block_given?
               yield
@@ -87,7 +91,11 @@ module ActionDispatch
           end
 
           resources @resource_type, options do
-            @scope[:jsonapi_resource] = @resource_type
+            if Rails::VERSION::MAJOR >= 5
+              @scope = @scope.new jsonapi_resource: @resource_type
+            else
+              @scope[:jsonapi_resource] = @resource_type
+            end
 
             if block_given?
               yield
